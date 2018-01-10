@@ -21,7 +21,7 @@ Assume we are dealing with an environment which could only hold integers within 
 
 # Solution
 ## My Solution
-the range of input `x` is [-2<sup>31</sup>, 2<sup>31</sup>), i.e. `-2147483648 <= x <= 2147483647`. Consequencely, if `x == -2147483648`, return 0, else map `x` to a positive integer, store all digits in a stack, and judge whether the reverse number is overflowed. At last, restore the reverse number one by one.
+the range of input `x` is [-2<sup>31</sup>, 2<sup>31</sup>), i.e. `-2147483648 <= x <= 2147483647`. Consequencely, if `x == -2147483648`, return 0, else map `x` to a positive integer. Store all digits in a stack one by one, and judge whether the reverse number is overflowed. At last, restore the reverse number one by one.
 
 ## LeetCode's Solution
 No answer
