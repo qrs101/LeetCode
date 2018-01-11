@@ -10,7 +10,7 @@ Time complexity: `O(n)`, `n` is the length of `x`
 Space complexity: `O(1)`
 
 ## LeetCode's Solution
-If the input `x < 0` or `x` is end of `0` but `x != 0`, it is not a palindrome. Reverse half of `x`, if the reverse number equals to the rest, then `x` is a palindrome. Code is shown in main2.cpp
+If the input `x < 0` or `x` ends in `0` but `x != 0`, it is not a palindrome. Reverse half of `x`, if the reverse number equals to the rest, then `x` is a palindrome. Code is shown in main2.cpp
 
 Time complexity: `O(n)`
 
