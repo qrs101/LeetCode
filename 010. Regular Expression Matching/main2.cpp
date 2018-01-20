@@ -35,16 +35,16 @@ public:
         } else {
             if (star[0] == false) {
                 if (text[0] == pattern_[0] || pattern_[0] == '.')
-                    return this->isMatch(text.substr(1,n), pattern.substr(1,len));
+                    return this->isMatch(text.substr(1), pattern.substr(1));
                 else
                     return false;
             } else {
-                if (this->isMatch(text, pattern.substr(2, len)) == true)
+                if (this->isMatch(text, pattern.substr(2)) == true)
                     return true;
                 else {
                     for (int j = 0; j < n; j++) {
                         if (text[j] == pattern_[0] || pattern_[0] == '.') {
-                            if (this->isMatch(text.substr(j+1,n), pattern.substr(2,len)) == true)
+                            if (this->isMatch(text.substr(j+1), pattern.substr(2)) == true)
                                 return true;
                         } else {
                             return false;
