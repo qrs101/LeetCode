@@ -10,10 +10,23 @@ struct TreeLinkNode {
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
-        helper(root);
+        if (root == nullptr)
+            return;
+        TreeLinkNode* cur = root;
+        while (cur->left != nullptr) {
+            TreeLinkNode* p = cur;
+            while (p != nullptr) {
+                p->left->next = p->right;
+                if (p->next != nullptr)
+                    p->right->next = p->next->left;
+                p = p->next;
+            }
+            cur = cur->left;
+        }
     }
 
-    void helper(TreeLinkNode* root) {
+    /*递归求解原问题
+    void connect(TreeLinkNode* root) {
         if (root == nullptr)
             return;
         TreeLinkNode* p = root->left;
@@ -23,7 +36,8 @@ public:
             p = p->right;
             q = q->left;
         }
-        helper(root->left);
-        helper(root->right);
+        connect(root->left);
+        connect(root->right);
     }
+    */
 };
