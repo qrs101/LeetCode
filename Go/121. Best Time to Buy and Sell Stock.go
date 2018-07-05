@@ -1,5 +1,3 @@
-package main
-
 func maxProfit(prices []int) int {
 	res := 0
 	if len(prices) == 0 {
