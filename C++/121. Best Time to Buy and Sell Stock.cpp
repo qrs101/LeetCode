@@ -1,10 +1,9 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
+    int maxProfit(std::vector<int>& prices) {
         int res = 0;
         if (prices.size() == 0)
             return res;
@@ -23,7 +22,7 @@ public:
     }
 
     /* another method
-    int maxProfit(vector<int>& prices) {
+    int maxProfit(std::vector<int>& prices) {
         int res = 0;
         if (prices.size() == 0)
             return res;

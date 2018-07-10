@@ -1,13 +1,12 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    string longestPalindrome(string s) {
+    std::string longestPalindrome(std::string s) {
         auto n = int(s.size());
         int start = 0, end = 0;
-        vector<vector<bool>> dp (unsigned(n), vector<bool>(unsigned(n), true));
+        std::vector<std::vector<bool>> dp (unsigned(n), std::vector<bool>(unsigned(n), true));
         for (int j = 0; j < n; j++) {
             for (int i = j - 1; i >= 0; i--) {
                 dp[i][j] = dp[i + 1][j - 1] && s[i] == s[j];

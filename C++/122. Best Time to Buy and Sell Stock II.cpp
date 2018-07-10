@@ -1,10 +1,9 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
+    int maxProfit(std::vector<int>& prices) {
         int res = 0;
         for (int i  = 1; i < int(prices.size()); i++) {
             if (prices[i] > prices[i - 1])
