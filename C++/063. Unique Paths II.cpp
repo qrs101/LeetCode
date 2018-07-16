@@ -1,13 +1,12 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+    int uniquePathsWithObstacles(std::vector<std::vector<int>>& obstacleGrid) {
         auto m = int(obstacleGrid.size());
         auto n = int(obstacleGrid[0].size());
-        vector<vector<int>> dp (m + 1, vector<int>(n + 1, 0));
+        std::vector<std::vector<int>> dp (m + 1, std::vector<int>(n + 1, 0));
         dp[0][1] = 1;
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
