@@ -32,9 +32,7 @@ class Solution:
                                 break
                             t -= 1
                 #print(i, ' ', j, ' ', dp[i][j])
-        if dp[n][m]:
-            return True
-        return False
+        return dp[n][m]
 
 so = Solution()
 ans = so.isMatch('aab', 'c*a*b')
