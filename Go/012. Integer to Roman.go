@@ -1,3 +1,5 @@
+package main
+
 func intToRoman(num int) string {
 	bit := [][]string {
 		{"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"},

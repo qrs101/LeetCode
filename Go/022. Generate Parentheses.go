@@ -1,3 +1,5 @@
+package main
+
 func generateParenthesis(n int) []string {
 	res := make([]string, 0, 0)
 	return helper(res, "", n, 0)

@@ -1,3 +1,5 @@
+package main
+
 var m = map[uint8][]string {
 	'2' : {"a", "b", "c"},
 	'3' : {"d", "e", "f"},

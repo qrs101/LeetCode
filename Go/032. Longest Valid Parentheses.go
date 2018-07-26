@@ -1,3 +1,5 @@
+package main
+
 func longestValidParentheses(s string) int {
 	s = "#" + s
 	dp := make([]int, len(s), len(s))

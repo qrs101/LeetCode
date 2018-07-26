@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func isMatch(s string, p string) bool {
 	M, N := len(s), len(p)
 	dp := make([][]bool, N + 1, N + 1)
@@ -36,9 +34,4 @@ func isMatch(s string, p string) bool {
 		}
 	}
 	return dp[N][M]
-}
-
-func main()  {
-	res := isMatch("aabb", "a*..*")
-	fmt.Println(res)
 }

@@ -1,3 +1,5 @@
+package main
+
 import "sort"
 
 func threeSum(nums []int) [][]int {

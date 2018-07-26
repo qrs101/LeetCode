@@ -1,3 +1,5 @@
+package main
+
 func uniquePaths(m int, n int) int {
 	var dp [][]int
 	dp = make([][]int, m + 1)

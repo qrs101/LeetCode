@@ -1,3 +1,5 @@
+package main
+
 func isValid(s string) bool {
 	Stack := make([]uint8, len(s), len(s))
 	top := -1

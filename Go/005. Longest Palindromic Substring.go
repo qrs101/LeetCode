@@ -1,3 +1,5 @@
+package main
+
 func longestPalindrome(s string) string {
 	var dp [][]bool
 	dp = make([][]bool, len(s), len(s))

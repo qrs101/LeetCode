@@ -1,3 +1,5 @@
+package main
+
 func minimumTotal(triangle [][]int) int {
 	if len(triangle) == 0 {
 		return 0

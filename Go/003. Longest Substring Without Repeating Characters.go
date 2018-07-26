@@ -1,3 +1,5 @@
+package main
+
 func lengthOfLongestSubstring(s string) int {
 	m := make(map[string]int)
 	res := 0
