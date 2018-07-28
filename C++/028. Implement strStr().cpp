@@ -1,15 +1,21 @@
 #include <iostream>
-#include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int strStr(string haystack, string needle) {
+    int strStr(std::string haystack, std::string needle) {
+        for (int i = 0; i <= int(haystack.size()) - int(needle.size()); i++) {
+            if (haystack.substr(i, int(needle.size())) == needle)
+                return i;
+        }
+        return -1;
+    }
+    /* KMP算法
+    int strStr(std::string haystack, std::string needle) {
         if (needle.size() == 0)
             return 0;
         else if (haystack.size() == 0)
             return  -1;
-        vector<int> next (needle.size(), -1);
+        std::vector<int> next (needle.size(), -1);
         for (int i = 1; i < needle.size(); i++) {
             if (next[i - 1] != -1 && needle[i - 1] == needle[next[i - 1]])
                 next[i] = next[i - 1] + 1;
@@ -32,13 +38,5 @@ public:
         }
         return -1;
     }
+    */
 };
-
-int main() {
-    string s1 = "abbbcdddcdaa";
-    string s2 = "a";
-    Solution so;
-    int res = so.strStr(s1, s2);
-    cout << res << endl;
-    return 0;
-}
