@@ -1,78 +1,61 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-using namespace std;
 
 class Solution {
 public:
-    vector<vector<string>> solveNQueens(int n) {
-        stack<int> row;
-        stack<int> column;
-        vector<vector<string>> ans;
-        vector<string> board(n, string(n, '.'));
-        int j = 0;
-        for (int i = 0; i < n; i++) {
+    std::vector<std::vector<std::string>> solveNQueens(int n) {
+        std::stack<int> row, col;
+        std::vector<std::vector<std::string>> res;
+        std::vector<std::string> board(n, std::string(n, '.'));
+        for (int i = 0, j = 0; i < n; i++) {
             for (; j < n; j++) {
                 if (check(board, i, j)) {
                     board[i][j] = 'Q';
                     row.push(i);
-                    column.push(j);
+                    col.push(j);
                     j = 0;
                     break;
                 }
             }
+            if (row.empty())
+                break;
             if (j == n) {
-                if (i == 0)
-                    break;
-                i = row.top();
-                j = column.top();
+                i = row.top(), j = col.top();
                 row.pop();
-                column.pop();
+                col.pop();
                 board[i][j] = '.';
                 i--;
                 j++;
-                continue;
             }
             if (i == n - 1 && j != n) {
-                ans.push_back(board);
-                i = row.top();
-                j = column.top();
+                res.emplace_back(board);
+                i = row.top(), j = col.top();
                 row.pop();
-                column.pop();
+                col.pop();
                 board[i][j] = '.';
                 i--;
                 j++;
             }
         }
-        return ans;
+        return res;
     }
 
-    bool check(vector<string>& board, int row, int column) {
-        int n = board.size();
+    bool check(std::vector<std::string>& board, int i, int j) {
+        int n = int(board.size());
 
-        for (int i = 0; i < row; i++)
-            if (board[i][column] == 'Q')
+        for (int k = 0; k < i; k++)
+            if (board[k][j] == 'Q')
                 return false;
 
-        for (int i = row, j = column; i >= 0 && j >= 0; i--, j--)
-            if (board[i][j] == 'Q')
+        for (int k1 = i, k2 = j; k1 >= 0 && k2 >= 0; k1--, k2--)
+            if (board[k1][k2] == 'Q')
                 return false;
 
-        for (int i = row, j = column; i >= 0 && j < n; i--, j++)
-            if (board[i][j] == 'Q')
+        for (int k1 = i, k2 = j; k1 >= 0 && k2 < n; k1--, k2++)
+            if (board[k1][k2] == 'Q')
                 return false;
 
         return true;
     }
 };
-
-int main() {
-    Solution so;
-    vector<vector<string>> ans = so.solveNQueens(4);
-    for (auto board : ans) {
-        for (auto line : board)
-            cout << line << endl;
-        cout << endl;
-    }
-    return 0;
-}
