@@ -1,7 +1,6 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-using namespace std;
 
 struct Interval {
     int start;
@@ -12,22 +11,23 @@ struct Interval {
 
 class Solution {
 public:
-    vector<Interval> merge(vector<Interval>& intervals) {
-        if (intervals.size() == 0 || intervals.size() == 1)
-            return intervals;
-        vector<Interval> ans;
+    std::vector<Interval> merge(std::vector<Interval>& intervals) {
+        std::vector<Interval> res;
+        if (intervals.size() == 0)
+            return res;
         sort(intervals.begin(), intervals.end(), compare);
-        for (int i = 0; i < intervals.size() - 1; i++) {
-            if (intervals[i + 1].start > intervals[i].end)
-                ans.push_back(intervals[i]);
-            else {
-                if (intervals[i + 1].end <= intervals[i].end)
-                    intervals[i + 1].end = intervals[i].end;
-                intervals[i + 1].start = intervals[i].start;
+        Interval interval(intervals[0]);
+        for (int i = 1; i < intervals.size(); i++) {
+            if (interval.end >= intervals[i].start) {
+                if (interval.end < intervals[i].end)
+                    interval.end = intervals[i].end;
+            } else {
+                res.emplace_back(interval);
+                interval = intervals[i];
             }
         }
-        ans.push_back(intervals[intervals.size() - 1]);
-        return ans;
+        res.emplace_back(interval);
+        return res;
     }
 
     static bool compare(const Interval& a, const Interval& b) {
