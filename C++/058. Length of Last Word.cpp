@@ -1,22 +1,11 @@
 #include <iostream>
-using namespace std;
 
 class Solution {
 public:
-    int lengthOfLastWord(string s) {
-        int ans = 0;
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] != ' ')
-                ans++;
-            else {
-                while (s[i] == ' ' && i < s.size())
-                    i++;
-                if (i == s.size())
-                    break;
-                ans = 0;
-                i--;
-            }
-        }
-        return ans;
+    int lengthOfLastWord(std::string s) {
+        int i, j;
+        for (j = int(s.size()) - 1; j >= 0 && s[j] == ' '; j--);
+        for (i = j; i >= 0 && s[i] != ' '; i--);
+        return j - i;
     }
 };

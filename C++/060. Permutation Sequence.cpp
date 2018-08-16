@@ -1,37 +1,21 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    string getPermutation(int n, int k) {
-        vector<int> array (n + 1, 1);
-        vector<int> number (n + 1, 1);
-        string ans = "";
-        int t = k;
-        for (int i = 2; i <= n; i++) {
-            array[i] = i * array[i - 1];
-            number[i] = i;
+    std::string getPermutation(int n, int k) {
+        std::vector<int> num(n + 1, 1), offset(n + 1, 1);
+        for (int i = 1; i <= n; i++) {
+            num[i] = i;
+            offset[i] = offset[i - 1] * i;
         }
-        for (int i = n; i > 1; i--) {
-            int tmp = array[i - 1];
-            int loc = 1;
-            while (t > tmp) {
-                loc++;
-                tmp = tmp + array[i - 1];
-            }
-            ans = ans + char(number[loc] + '0');
-            number.erase(number.begin() + loc);
-            t = t - tmp + array[i - 1];
+        std::string res("");
+        k = k - 1;
+        for (int i = n; i > 0; k = k % offset[i - 1], i--) {
+            int index = k / offset[i - 1] + 1;
+            res += std::to_string(num[index]);
+            num.erase(num.begin() + index);
         }
-        ans = ans + char(number[1] + '0');
-        return ans;
+        return res;
     }
 };
-
-int main() {
-    Solution so;
-    string ans = so.getPermutation(4, 7);
-    cout << ans << endl;
-    return 0;
-}

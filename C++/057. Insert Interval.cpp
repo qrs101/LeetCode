@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 struct Interval {
     int start;
@@ -11,31 +10,26 @@ struct Interval {
 
 class Solution {
 public:
-    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
-        vector<Interval> ans;
-        if (intervals.size() == 0) {
-            ans.push_back(newInterval);
-            return ans;
-        }
-        for (int i = 0 ; i < intervals.size(); i++) {
-            if (newInterval.start <= intervals[i].start) {
-                intervals.insert(intervals.begin() + i, newInterval);
+    std::vector<Interval> insert(std::vector<Interval>& intervals, Interval newInterval) {
+        std::vector<Interval> res;
+        int i;
+        for (i = 0 ; i < intervals.size(); i++) {
+            if (newInterval.start <= intervals[i].end) {
+                if (newInterval.start > intervals[i].start)
+                    newInterval.start = intervals[i].start;
                 break;
             }
         }
-        if (newInterval.start > intervals[intervals.size() - 1].start)
-            intervals.insert(intervals.end(), newInterval);
-
-        for (int i = 0; i < intervals.size() - 1; i++) {
-            if (intervals[i + 1].start > intervals[i].end)
-                ans.push_back(intervals[i]);
-            else {
-                if (intervals[i + 1].end <= intervals[i].end)
-                    intervals[i + 1].end = intervals[i].end;
-                intervals[i + 1].start = intervals[i].start;
+        res.insert(res.end(), intervals.begin(), intervals.begin() + i);
+        for (i = int(intervals.size()) - 1; i >= 0; i--) {
+            if (newInterval.end >= intervals[i].start) {
+                if (newInterval.end < intervals[i].end)
+                    newInterval.end = intervals[i].end;
+                break;
             }
         }
-        ans.push_back(intervals[intervals.size() - 1]);
-        return ans;
+        res.emplace_back(newInterval);
+        res.insert(res.end(), intervals.begin() + i + 1, intervals.end());
+        return res;
     }
 };
