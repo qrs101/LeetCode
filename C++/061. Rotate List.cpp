@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 
 struct ListNode {
     int val;
@@ -10,38 +9,20 @@ struct ListNode {
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        if (k == 0 || head == nullptr || head->next == nullptr)
+        if (k == 0 || head == nullptr)
             return head;
-        ListNode* a = head;
-        ListNode* b = head;
-        int length = 0;
-        for (int i = 0; i < k && b!= nullptr; i++) {
-            length++;
-            b = b->next;
-        }
-        if (b == nullptr) {
-            int t = k % length;
-            if (t == 0)
-                return head;
-            b = head;
-            for (int i = 0; i < t; i++)
-                b = b->next;
-        }
-        while (b->next != nullptr) {
-            a = a->next;
-            b = b->next;
-        }
-        b = a->next;
-        a->next = b->next;
-        b->next = head;
-        ListNode* ans = b;
-        while (a->next != nullptr) {
-            ListNode* p = a->next;
-            a->next = p->next;
-            p->next = b->next;
-            b->next = p;
-            b = p;
-        }
-        return ans;
+        ListNode *p, *q;
+        int n;
+        for (n = 0, p = head; p != nullptr; n++, p = p->next);
+        k = k % n;
+        ListNode *res = new ListNode(0);
+        res->next = head;
+        p = res, q = res;
+        for (int i = 0; i < k; i++, q = q->next);
+        for (; q->next != nullptr; p = p->next, q = q->next);
+        q->next = res->next;
+        res->next = p->next;
+        p->next = nullptr;
+        return res->next;
     }
 };
