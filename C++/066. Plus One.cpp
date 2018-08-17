@@ -1,17 +1,14 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    vector<int> plusOne(vector<int>& digits) {
-        auto n = int(digits.size());
-        int carry = 0;
-        digits[n - 1]++;
-        for (int i = n - 1; i >= 0; i--) {
-            int tmp = digits[i] + carry;
-            carry = tmp / 10;
-            digits[i] = tmp % 10;
+    std::vector<int> plusOne(std::vector<int>& digits) {
+        int carry = 1;
+        for (int i = int(digits.size()) - 1; i >= 0; i--) {
+            carry = digits[i] + carry;
+            digits[i] = carry % 10;
+            carry = carry / 10;
             if (carry == 0)
                 break;
         }
