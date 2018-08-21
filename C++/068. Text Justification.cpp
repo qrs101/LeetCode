@@ -1,62 +1,44 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    vector<string> fullJustify(vector<string>& words, int maxWidth) {
-        auto num_of_words = int(words.size());
-        vector<string> ans;
-        int length = 0, i = 0;
-        for (int j = 0; j < num_of_words; j++) {
-            length += int(words[j].size());
-            if (length + j - i == maxWidth) {
-                string str = words[i];
-                for (int k = i + 1; k <= j; k++)
-                    str += " " + words[k];
-                ans.push_back(str);
-                i = j + 1;
-                length = 0;
-            } else if (length + j - i > maxWidth) {
-                length -= int(words[j].size());
-                string str = words[i];
+    std::vector<std::string> fullJustify(std::vector<std::string>& words, int maxWidth) {
+        std::vector<std::string> res;
+        int length = 0, pure_length = 0;
+        int i, j;
+        for (i = 0, j = 0; j < int(words.size()); j++) {
+            if (length + int(words[j].size()) <= maxWidth) {
+                length = length + int(words[j].size()) + 1;
+                pure_length = pure_length + int(words[j].size());
+            } else {
                 if (j == i + 1) {
-                    string space(maxWidth - length, ' ');
-                    str += space;
+                    std::string line(unsigned(maxWidth - pure_length), ' ');
+                    res.emplace_back(words[i] + line);
                 } else {
-                    int s = (maxWidth - length) / (j - i - 1);
-                    int r = (maxWidth - length) % (j - i - 1);
-                    for (int k = i + 1; k < j; k++, r--) {
-                        string space(s, ' ');
-                        if (r > 0)
-                            space += " ";
-                        str += space;
-                        str += words[k];
+                    int space = (maxWidth - pure_length) / (j - i - 1);
+                    int over_space = (maxWidth - pure_length) % (j - i - 1);
+                    std::string line = words[i];
+                    for (int k = i + 1; k < j; k++) {
+                        std::string tmp(unsigned(space), ' ');
+                        if (over_space > 0) {
+                            tmp += " ";
+                            over_space--;
+                        }
+                        line += tmp + words[k];
                     }
+                    res.emplace_back(line);
                 }
-                ans.push_back(str);
                 i = j;
-                length = 0;
-                j--;
-            } else if (j == num_of_words - 1) {
-                string str = words[i];
-                for (int k = i + 1; k <= j; k++)
-                    str += " " + words[k];
-                string space(maxWidth - str.size(), ' ');
-                str += space;
-                ans.push_back(str);
+                length = int(words[j].size()) + 1;
+                pure_length = int(words[j].size());
             }
         }
-        return ans;
+        std::string line = words[i];
+        for (int k = i + 1; k < j; k++)
+            line += " " + words[k];
+        line = line + std::string(maxWidth - line.size(), ' ');
+        res.emplace_back(line);
+        return res;
     }
 };
-
-int main() {
-    vector<string> words {""};
-    Solution so;
-    vector<string> ans = so.fullJustify(words, 0);
-    //cout << ans.size() << endl;
-    for (auto i : ans)
-        cout << i << "#"<< endl;
-    return 0;
-}

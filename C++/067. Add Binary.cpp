@@ -1,41 +1,21 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    string addBinary(string a, string b) {
-        string str1, str2;
-        if (a.size() > b.size()) {
-            str1 = a;
-            str2 = b;
-        } else {
-            str1 = b;
-            str2 = a;
+    std::string addBinary(std::string a, std::string b) {
+        std::string res("");
+        int carry = 0;
+        for (int i = int(a.size()) - 1, j = int(b.size()) - 1; i >= 0 || j >= 0; i--, j--) {
+            int num1 = 0, num2 = 0;
+            if (i >= 0) num1 = a[i] - '0';
+            if (j >= 0) num2 = b[j] - '0';
+            carry = carry + num1 + num2;
+            res = std::to_string(carry & 1) + res;
+            carry = carry >> 1;
         }
-        auto m = int(str1.size());
-        auto n = int(str2.size());
-        char carry = '0';
-        for (int i = m - 1, j = n - 1; i >= 0; i--, j--) {
-            char c = '0';
-            if (j >= 0)
-                c = str2[j];
-            string tmp = add(str1[i], c, carry);
-            str1[i] = tmp[1];
-            carry = tmp[0];
-        }
-        if (carry != '0')
-            str1 = carry + str1;
-        return str1;
-    }
-
-    string add(char a, char b, char carry) {
-        int sum = int(a - '0') + int(b - '0') + int(carry - '0');
-        switch (sum) {
-            case 0 : return "00";
-            case 1 : return "01";
-            case 2 : return "10";
-            case 3 : return "11";
-        }
+        if (carry == 1)
+            res = '1' + res;
+        return res;
     }
 };
