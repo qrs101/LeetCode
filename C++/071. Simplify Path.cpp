@@ -1,41 +1,33 @@
 #include <iostream>
 #include <stack>
-using namespace std;
 
 class Solution {
 public:
-    string simplifyPath(string path) {
-        stack<string> S;
-        string str = '/' + path + '/';
-        for (int i = -1, j = 0; j < str.size(); j++) {
-            if (str[j] != '/' && str[j - 1] == '/')
+    std::string simplifyPath(std::string path) {
+        std::stack<std::string> s;
+        path = '/' + path + '/';
+        for (int i = -1, j = 0; j < int(path.size()); j++) {
+            if (path[j] != '/' && path[j - 1] == '/')
                 i = j;
-            if (str[j] == '/' && str[j - 1] != '/'  && i != -1) {
-                string tmp = str.substr(i, j - i);
+            if (path[j] == '/' && i != -1 && path[j - 1] != '/') {
+                std::string tmp = path.substr(i, j - i);
                 if (tmp == ".")
                     continue;
                 else if (tmp == "..") {
-                    if (!S.empty())
-                        S.pop();
+                    if (!s.empty())
+                        s.pop();
                 } else
-                    S.push(tmp);
+                    s.push(tmp);
             }
         }
 
-        if (S.empty())
+        if (s.empty())
             return "/";
-        string ans = "";
-        while (!S.empty()) {
-            ans = "/" + S.top() + ans;
-            S.pop();
+        std::string res = "";
+        while (!s.empty()) {
+            res = "/" + s.top() + res;
+            s.pop();
         }
-        return ans;
+        return res;
     }
 };
-
-int main() {
-    Solution so;
-    string ans = so.simplifyPath("/.");
-    cout << ans << endl;
-    return 0;
-}
