@@ -1,31 +1,32 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> ans;
-        if (n <= 0 || k <= 0 || k > n)
-            return ans;
-        if (k == 1) {
-            for (int i = 1; i <= n; i++)
-                ans.push_back(vector<int>(1, i));
-            return ans;
+    std::vector<std::vector<int>> combine(int n, int k) {
+        std::vector<int> num(n, 0);
+        for (int i = 0; i < n; i++)
+            num[i] = i + 1;
+        std::vector<std::vector<int>> res = helper(num, k);
+        return res;
+    }
+
+    std::vector<std::vector<int>> helper(std::vector<int> nums, int k) {
+        std::vector<std::vector<int>> res;
+        if (nums.size() == k) {
+            res.emplace_back(nums);
+            return res;
         }
-        if (n == k) {
-            vector<int> tmp;
-            for (int i = 1; i <= n; i++)
-                tmp.push_back(i);
-            ans.push_back(tmp);
-            return ans;
+        std::vector<int> nums_(nums.begin() + 1, nums.end());
+        res = helper(nums_, k);
+        if (k - 1 > 0) {
+            std::vector<std::vector<int>> tmp = helper(nums_, k - 1);
+            for (auto &i : tmp)
+                i.insert(i.begin(), nums[0]);
+            res.insert(res.end(), tmp.begin(), tmp.end());
+        } else {
+            res.emplace_back(std::vector<int>{nums[0]});
         }
-        ans = combine(n - 1, k);
-        vector<vector<int>> tmp = combine(n - 1, k - 1);
-        for (auto& i : tmp) {
-            i.push_back(n);
-            ans.push_back(i);
-        }
-        return ans;
+        return res;
     }
 };
