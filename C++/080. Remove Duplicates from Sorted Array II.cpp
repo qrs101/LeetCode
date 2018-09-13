@@ -1,26 +1,19 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        for (int i = 0; i < int(nums.size()) - 1; i++) {
-            if (nums[i] != nums[i + 1])
-                continue;
-            int j = i + 2;
-            while (j < nums.size() && nums[j] == nums[i])
-                nums.erase(nums.begin() + j);
-            i = j - 1;
+    int removeDuplicates(std::vector<int>& nums) {
+        int i = -1;
+        for (int j = 0, num = 1; j < int(nums.size()); num = 1) {
+            for (j++; j < int(nums.size()) && nums[j] == nums[j - 1]; j++, num++);
+            if (num == 1) {
+                nums[++i] = nums[j - 1];
+            } else {
+                nums[++i] = nums[j - 1];
+                nums[++i] = nums[j - 1];
+            }
         }
-        return int(nums.size());
+        return i + 1;
     }
 };
-
-int main() {
-    vector<int> nums;
-    Solution so;
-    int ans = so.removeDuplicates(nums);
-    cout << ans << endl;
-    return 0;
-}

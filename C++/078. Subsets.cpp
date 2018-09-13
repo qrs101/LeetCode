@@ -1,39 +1,34 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> ans;
-        ans.push_back(vector<int>());
+    std::vector<std::vector<int>> subsets(std::vector<int>& nums) {
+        std::vector<std::vector<int>> res;
+        res.push_back(std::vector<int>());
         for (int i = 1; i <= nums.size(); i++) {
-            vector<vector<int>> tmp = findk(nums, i);
-            ans.insert(ans.end(), tmp.begin(), tmp.end());
+            std::vector<std::vector<int>> tmp = helper(nums, i);
+            res.insert(res.end(), tmp.begin(), tmp.end());
         }
-        return ans;
+        return res;
     }
 
-    vector<vector<int>> findk(vector<int>& nums, int k) {
-        vector<vector<int>> ans;
-        if (k == 1) {
-            for (auto i : nums)
-                ans.push_back(vector<int>(1, i));
-            return ans;
+    std::vector<std::vector<int>> helper(std::vector<int> nums, int k) {
+        std::vector<std::vector<int>> res;
+        if (nums.size() == k) {
+            res.emplace_back(nums);
+            return res;
         }
-        if (k == nums.size()) {
-            ans.push_back(nums);
-            return ans;
+        std::vector<int> nums_(nums.begin() + 1, nums.end());
+        res = helper(nums_, k);
+        if (k - 1 > 0) {
+            std::vector<std::vector<int>> tmp = helper(nums_, k - 1);
+            for (auto &i : tmp)
+                i.insert(i.begin(), nums[0]);
+            res.insert(res.end(), tmp.begin(), tmp.end());
+        } else {
+            res.emplace_back(std::vector<int>{nums[0]});
         }
-        vector<int> tmp(nums);
-        tmp.erase(tmp.end() - 1);
-        ans = findk(tmp, k);
-        vector<vector<int>> t = findk(tmp, k - 1);
-        int h = nums[nums.size() - 1];
-        for (auto& i : t) {
-            i.push_back(h);
-            ans.push_back(i);
-        }
-        return ans;
+        return res;
     }
 };
