@@ -1,76 +1,51 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        if (int(matrix.size()) == 0 || int(matrix[0].size()) == 0)
+    int maximalRectangle(std::vector<std::vector<char>>& matrix) {
+        if (matrix.size() == 0 || matrix[0].size() == 0)
             return 0;
-        auto m = int(matrix.size());
-        auto n = int(matrix[0].size());
-        vector<int> heights (n, 0);
-        for (int i = 0; i < n; i++)
-            if (matrix[0][i] == '1')
-                heights[i] = 1;
-        int ans = largestRectangleArea(heights);
-        for (int i = 1; i < m; i++) {
-            for (int j = 0; j < n; j++)
-                if (matrix[i][j] == '0')
-                    heights[j] = 0;
-                else
-                    heights[j]++;
-            int tmp = largestRectangleArea(heights);
-            if (ans < tmp)
-                ans = tmp;
+        std::vector<int> heights(matrix[0].begin(), matrix[0].end());
+        for (auto &i : heights)
+            i -= int('0');
+        int res = largestRectangleArea(heights);
+        for (int i = 1; i < int(matrix.size()); i++) {
+            for (int j = 0; j < int(matrix[0].size()); j++) {
+                 if (matrix[i][j] == '0')
+                     heights[j] = 0;
+                 else
+                     heights[j]++;
+            }
+            res = std::max(res, largestRectangleArea(heights));
         }
-        return ans;
+        return res;
     }
 
-    int largestRectangleArea(vector<int> heights) {
-        int ans = 0;
-        int n = int(heights.size());
-        heights.insert(heights.begin(), -1);
-        heights.push_back(-1);
-        vector<int> left(n + 1, 0);
-        vector<int> right(n + 1, n + 1);
-        for (int i = 2; i <= n; i++) {
-            int j = i - 1;
-            while (heights[j] != 0 && heights[j] > heights[i])
-                j = left[j];
-            if (heights[j] < heights[i])
-                left[i] = j;
+    int largestRectangleArea(std::vector<int> heights) {
+        auto n = int(heights.size());
+        std::vector<int> L(unsigned(n) + 2, 0);
+        std::vector<int> R(unsigned(n) + 2, 0);
+        heights.insert(heights.begin(), 0);
+        heights.emplace_back(0);
+        for (int i = 1, j; i <= n; i++) {
+            for (j = i; heights[j - 1] > heights[i]; j = L[j - 1]);
+            if (heights[j - 1] < heights[i])
+                L[i] = j;
             else
-                left[i] = left[j];
+                L[i] = L[j - 1];
         }
-        for (int i = n - 1; i >= 1; i--) {
-            int j = i + 1;
-            while (heights[j] != n + 1 && heights[j] > heights[i])
-                j = right[j];
-            if (heights[j] < heights[i])
-                right[i] = j;
+        for (int i = n, j; i >= 1; i--) {
+            for (j = i; heights[j + 1] > heights[i]; j = R[j + 1]);
+            if (heights[j + 1] < heights[i])
+                R[i] = j;
             else
-                right[i] = right[j];
+                R[i] = R[j + 1];
         }
+        int res = 0;
         for (int i = 1; i <= n; i++) {
-            int area = heights[i] * (right[i] - left[i] - 1);
-            if (ans < area)
-                ans = area;
+            res = std::max(res, (R[i] - L[i] + 1) * heights[i]);
         }
-        return ans;
+        return res;
     }
 };
-
-
-int main() {
-    vector<vector<char>> matrix{
-            {'1', '0', '1', '0', '0'},
-            {'1', '0', '1', '1', '1'},
-            {'1', '1', '1', '1', '1'},
-            {'1', '0', '0', '1', '0'}
-    };
-    Solution so;
-    int ans = so.maximalRectangle(matrix);
-    cout << ans << endl;
-    return 0;
-}

@@ -1,39 +1,32 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        int ans = 0;
-        int n = int(heights.size());
-        heights.insert(heights.begin(), -1);
-        heights.push_back(-1);
-        vector<int> left(n + 1, 0);
-        vector<int> right(n + 1, n + 1);
-        for (int i = 2; i <= n; i++) {
-            int j = i - 1;
-            while (heights[j] != 0 && heights[j] > heights[i])
-                j = left[j];
-            if (heights[j] < heights[i])
-                left[i] = j;
+    int largestRectangleArea(std::vector<int>& heights) {
+        auto n = int(heights.size());
+        std::vector<int> L(unsigned(n) + 2, 0);
+        std::vector<int> R(unsigned(n) + 2, 0);
+        heights.insert(heights.begin(), 0);
+        heights.emplace_back(0);
+        for (int i = 1, j; i <= n; i++) {
+            for (j = i; heights[j - 1] > heights[i]; j = L[j - 1]);
+            if (heights[j - 1] < heights[i])
+                L[i] = j;
             else
-                left[i] = left[j];
+                L[i] = L[j - 1];
         }
-        for (int i = n - 1; i >= 1; i--) {
-            int j = i + 1;
-            while (heights[j] != n + 1 && heights[j] > heights[i])
-                j = right[j];
-            if (heights[j] < heights[i])
-                right[i] = j;
+        for (int i = n, j; i >= 1; i--) {
+            for (j = i; heights[j + 1] > heights[i]; j = R[j + 1]);
+            if (heights[j + 1] < heights[i])
+                R[i] = j;
             else
-                right[i] = right[j];
+                R[i] = R[j + 1];
         }
+        int res = 0;
         for (int i = 1; i <= n; i++) {
-            int area = heights[i] * (right[i] - left[i] - 1);
-            if (ans < area)
-                ans = area;
+            res = std::max(res, (R[i] - L[i] + 1) * heights[i]);
         }
-        return ans;
+        return res;
     }
 };
