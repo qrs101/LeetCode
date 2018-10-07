@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-using namespace std;
 
 struct TreeNode {
     int val;
@@ -12,29 +11,22 @@ struct TreeNode {
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        vector<int> inorder_array = inorder(root);
-        for (int i = 0; i < int(inorder_array.size()) - 1; i++)
-            if (inorder_array[i] >= inorder_array[i + 1])
+        vector<int> arr = inorder(root);
+        for (int i = 1; i < int(arr.size()); i++) {
+            if (arr[i - 1] >= arr[i])
                 return false;
+        }
         return true;
     }
 
-    vector<int> inorder(TreeNode* root) {
-        vector<int> ans;
+    vector<int> inorder(TreeNode *root) {
+        vector<int> res;
         if (root == nullptr)
-            return ans;
-        ans = inorder(root->left);
-        ans.push_back(root->val);
+            return res;
+        res = inorder(root->left);
+        res.emplace_back(root->val);
         vector<int> tmp = inorder(root->right);
-        ans.insert(ans.end(), tmp.begin(), tmp.end());
-        return ans;
+        res.insert(res.end(), tmp.begin(), tmp.end());
+        return res;
     }
 };
-
-int main() {
-    TreeNode* root = nullptr;
-    Solution so;
-    bool ans = so.isValidBST(root);
-    cout << ans << endl;
-    return 0;
-}

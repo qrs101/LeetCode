@@ -24,11 +24,7 @@ public:
             return false;
         else if (r1->val != r2->val)
             return false;
-        else {
-            if (helper(r1->left, r2->right) && helper(r1->right, r2->left))
-                return true;
-            else
-                return false;
-        }
+        else
+            return helper(r1->left, r2->right) && helper(r1->right, r2->left);
     }
 };
