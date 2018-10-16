@@ -6,25 +6,17 @@ class Solution {
 public:
     bool isScramble(string s1, string s2) {
         auto n = int(s1.size());
-        if (n == 0)
-            return false;
-        if (s1 == s2)
-            return true;
         typedef vector<vector<bool>> array_2d;
-        vector<array_2d> dp (n + 1, array_2d(n, vector<bool>(n, false)));
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++)
-                if (s1[i] == s2[j])
-                    dp[1][i][j] = true;
-        }
-        for (int k = 2; k <= n; k++) {
-            for (int i = 0; i <= n - k; i++) {
-                string str1 = s1.substr(i, k);
-                for (int j = 0; j <= n - k; j++) {
-                    string str2 = s2.substr(j, k);
-                    for (int len = 1; len < k; len++) {
-                        bool A = dp[len][i][j] && dp[k - len][i + len][j + len];
-                        bool B = dp[len][i][j + k - len] && dp[k - len][i + len][j];
+        vector<array_2d> dp(n, array_2d(n, vector<bool>(n, false)));
+
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n - k; i++) {
+                for (int j = 0; j < n - k; j++) {
+                    if (k == 0 && s1[i] == s2[j])
+                        dp[k][i][j] = true;
+                    for (int len = 0; len < k; len++) {
+                        bool A = dp[len][i][j] && dp[k - len- 1][i + len + 1][j + len + 1];
+                        bool B = dp[len][i][k - len + j] && dp[k - len - 1][i + len + 1][j];
                         if (A || B) {
                             dp[k][i][j] = true;
                             break;
@@ -33,6 +25,7 @@ public:
                 }
             }
         }
-        return dp[n][0][0];
+
+        return dp[n - 1][0][0];
     }
 };

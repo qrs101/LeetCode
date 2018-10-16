@@ -10,28 +10,24 @@ struct ListNode {
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode* cur = new ListNode(0);
-        cur->next = head;
-        ListNode* ans = cur;
-        ListNode* p = cur;
-        ListNode* q = p->next;
-        while (q != nullptr && q->val < x) {
-            cur = q;
-            p = q;
-            q = q->next;
-        }
-        while (q != nullptr) {
-            if (q->val >= x) {
+        ListNode *res = new ListNode(0);
+        res->next = head;
+        for (ListNode *p = res, *q = res; q->next != nullptr; ) {
+            if (q->next->val >= x) {
+                q = q->next;
+                continue;
+            }
+            if (p == q) {
                 p = p->next;
                 q = q->next;
                 continue;
             }
-            p->next = q->next;
-            q->next = cur->next;
-            cur->next = q;
-            cur = cur->next;
-            q = p->next;
+            ListNode *tmp = q->next;
+            q->next = tmp->next;
+            tmp->next = p->next;
+            p->next = tmp;
+            p = p->next;
         }
-        return ans->next;
+        return res->next;
     }
 };
