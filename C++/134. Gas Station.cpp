@@ -30,11 +30,3 @@ public:
         return -1;
     }
 };
-
-int main() {
-    vector<int> gas {};
-    vector<int> cost {};
-    Solution so;
-    int ans = so.canCompleteCircuit(gas, cost);
-    cout << ans << endl;
-}
